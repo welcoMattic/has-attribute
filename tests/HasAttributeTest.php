@@ -24,6 +24,8 @@ class HasAttributeTest extends TestCase
         $this->assertTrue(class_has_attribute(Bar::class, [ClassAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
         $this->assertTrue(class_has_attribute(Bar::class, [ClassAttribute::class, AnotherClassAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
         $this->assertFalse(class_has_attribute(Bar::class, [AnotherAnotherClassAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
+
+        $this->assertTrue(class_has_attribute(Baz::class, [ClassAttributeInterface::class]));
     }
 
     public function testMethodHasAttribute(): void
@@ -77,6 +79,11 @@ class AnotherClassAttribute {}
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class AnotherAnotherClassAttribute {}
 
+class ClassAttributeInterface {}
+
+#[\Attribute(\Attribute::TARGET_CLASS)]
+class ChildClassAttribute extends ClassAttributeInterface {}
+
 #[\Attribute(\Attribute::TARGET_METHOD)]
 class MethodAttribute {}
 
@@ -123,3 +130,6 @@ class Foo
 
 #[ClassAttribute]
 class Bar {}
+
+#[ChildClassAttribute]
+class Baz {}
