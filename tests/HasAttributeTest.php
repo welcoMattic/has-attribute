@@ -48,6 +48,12 @@ class HasAttributeTest extends TestCase
         $this->assertTrue(method_has_attribute(Foo::class, 'toArray', [AnotherMethodAttribute::class, AnotherAnotherMethodAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
         $this->assertTrue(method_has_attribute(Foo::class, 'toArray', [MethodAttribute::class, AnotherAnotherMethodAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
         $this->assertFalse(method_has_attribute(Foo::class, 'toArray', [MethodAttribute::class], HasAttributeMode::ATTRIBUTES_ANY_OF));
+
+        $this->assertTrue(method_has_attribute(Fooo::class, 'barbaz', [Fooo_BarBazAttribute::class]));
+        $this->assertFalse(method_has_attribute(Fooo::class, 'barbaz', [FoooBar_BarAttribute::class]));
+
+        $this->assertTrue(method_has_attribute(Fooobar::class, 'baz', [FoooBar_BarAttribute::class]));
+        $this->assertFalse(method_has_attribute(Fooobar::class, 'baz', [Fooo_BarBazAttribute::class]));
     }
 
     public function testPropertyHasAttribute(): void
@@ -93,6 +99,12 @@ class AnotherMethodAttribute {}
 #[\Attribute(\Attribute::TARGET_METHOD)]
 class AnotherAnotherMethodAttribute {}
 
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class FoooBar_BarAttribute {}
+
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class Fooo_BarBazAttribute {}
+
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class PropertyAttribute {}
 
@@ -133,3 +145,15 @@ class Bar {}
 
 #[ChildClassAttribute]
 class Baz {}
+
+class Fooobar
+{
+    #[FoooBar_BarAttribute]
+    public function baz() {}
+}
+
+class Fooo
+{
+    #[Fooo_BarBazAttribute]
+    public function barbaz() {}
+}

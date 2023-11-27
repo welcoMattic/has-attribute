@@ -40,7 +40,7 @@ final class HasAttribute
     public static function methodHasAttribute(object|string $subject, string $methodName, array|string $attribute, HasAttributeMode $mode = HasAttributeMode::ATTRIBUTES_ONE_OF): bool
     {
         $reflectionClass = self::createReflection($subject);
-        $cacheKey = self::getClassName($subject) . $methodName;
+        $cacheKey = self::getClassName($subject) . '::' . $methodName;
         self::$methodCache[$cacheKey] ??= $reflectionClass->getMethod($methodName);
 
         return self::_hasAttribute(self::$methodCache[$cacheKey], (array) $attribute, $mode);
@@ -53,7 +53,7 @@ final class HasAttribute
     public static function propertyHasAttribute(object|string $subject, string $propertyName, array|string $attribute, HasAttributeMode $mode = HasAttributeMode::ATTRIBUTES_ONE_OF): bool
     {
         $reflectionClass = self::createReflection($subject);
-        $cacheKey = self::getClassName($subject) . $propertyName;
+        $cacheKey = self::getClassName($subject) . '::' . $propertyName;
         self::$propertyCache[$cacheKey] ??= $reflectionClass->getProperty($propertyName);
 
         return self::_hasAttribute(self::$propertyCache[$cacheKey], (array) $attribute, $mode);
