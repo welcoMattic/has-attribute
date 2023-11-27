@@ -57,6 +57,21 @@ method_has_attribute(Foo::class, MethodAttribute::class, 'bar'); // true
 property_has_attribute(Foo::class, PropertyAttribute::class, 'baz'); // true
 ```
 
+It also supports Attribute inheritance:
+
+```php
+#[\Attribute(\Attribute::TARGET_CLASS)]
+class ClassAttributeInterface {}
+
+#[\Attribute(\Attribute::TARGET_CLASS)]
+class ChildClassAttribute extends ClassAttributeInterface {}
+
+#[ChildClassAttribute]
+class Foo {}
+
+class_has_attribute(Baz::class, [ClassAttributeInterface::class]); // true
+```
+
 ## Credits
 
 This package is based on an idea from [lyrixx](https://github.com/lyrixx), and was implemented by [welcomattic](https://github.com/welcomattic) and [Korbeil](https://github.com/Korbeil).

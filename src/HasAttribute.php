@@ -67,7 +67,7 @@ final class HasAttribute
     {
         $foundAttributes = [];
         foreach ($attributes as $attribute) {
-            if ($reflection->getAttributes($attribute)[0] ?? false) {
+            if ($reflection->getAttributes($attribute, \ReflectionAttribute::IS_INSTANCEOF)[0] ?? false) {
                 $foundAttributes[] = $attribute;
             }
         }
